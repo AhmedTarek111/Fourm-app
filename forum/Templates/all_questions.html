@@ -12,65 +12,77 @@
 </head>
 <body style="background-color:#F1F2F2;">
   <!-- start nav -->
-    <nav class="navbar navbar-expand-lg mb-2 " style="background-color:#FFFFFF;">
-        <div class="container ">
-            <a href="/main">
+<div class="fixed-top mb-5">
+    <div class="navbar navbar-expand-lg mb-3  " style="background-color:#FFFFFF;">
+      <div class="container">
+          <a href="/main">
               <img class="mx-5" src="{% static 'img/1.jpeg' %}" alt="Bootstrap" width="87" height="26">
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <a href="/main"><img src="{% static 'img/th.jpeg' %}" style="width: 36px; height: 36px;" alt=""></a>
-            </li>
+              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                  <li class="nav-item">
+                      <a href="/main"><img src="{% static 'img/th.jpeg' %}" style="width: 36px; height: 36px;" alt=""></a>
+                  </li>
 
-            <li class="nav-item ms-5">
-                <a href="add_question/" type="button" class="btn btn-outline-danger ">Add Question</a>
-            </li>
-            
-            </ul>
-            <form class="d-flex me-auto" role="search">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn  btn-outline-danger" type="submit">Search</button>
-            </form>
+                  <li class="nav-item ms-5">
+                      <a href="add_question/" type="button" class="btn btn-outline-danger ">Add Question</a>
+                  </li>
+              </ul>
+              <form class="d-flex me-auto" role="search">
+                  <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                  <button class="btn btn-outline-danger" type="submit">Search</button>
+              </form>
           </div>
-        </div>
-      </nav>
-      <!-- end nav -->
-
-      <div class="container">
-        <div class="row ">
-
-          <div class="col-2">
-
-          </div>
-         
-          
-  <!-- questions -->
-   <div class="col-8 pt-4" style="background-color:#FFFFFF;">
-     {% for question in questions %}
-       <div class="card mb-3">
-         <div class="card-header">
-           Question
-         </div>
-       <div class="card-body" id="answerSection">
-         <h5 class="card-title">{{ question }}</h5>
-         <p class="card-text">by: {{ question.author }}</p>
-         <a href="#collapseAnswer-{{ question.id }}" class="btn btn-danger mb-1" data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapseAnswer">Add Answer</a> 
-         <div class="collapse" id="collapseAnswer-{{ question.id }}"> 
-          <form  method="post" id="{{ question.id }}">
-              {% csrf_token %} 
-              {% bootstrap_form answer_form %}
-              <input type="hidden" name="question" value="{{question}}">
-              <button type="submit" class="btn btn-primary my-3">Add Answer</button>
-            </form>
       </div>
-         <p class="d-inline-flex gap-1">
-           <a class="btn btn-secondary" data-bs-toggle="collapse" href="#collapseExample-{{ question.id }}" role="button" aria-expanded="false" aria-controls="collapseExample">All Answers</a>
-           <a class="btn btn-warning ms-auto" href="{{ question.id }}/delete/" role="button">Delete Question</a>
-         </p>
+  </div>
+</div>
+<!-- end nav -->
+<!-- space between the nav and body  -->
+<div class="row">space</div>
+<!-- end spcae -->
+
+<div class="container mt-5" >
+    <div class="row " >
+        <div class="col-2 me-3">
+     
+        </div>
+ 
+          
+    <!-- questions -->
+    <div class="col-8 pt-4" style="background-color:#FFFFFF;">
+      {% for question in questions %}
+        <div class="card mb-3">
+          <div class="card-header d-flex justify-content-between">
+            Question
+            <a href="{{ question.id }}/delete/"><i class="fa-solid fa-trash" ></i></a>
+          </div>
+        <div class="card-body" id="answerSection">
+          <!-- question title -->
+          <h5 class="card-title d-flex justify-content-between">
+            {{ question }}              
+            <a href="{{question.id}}/edit_question" class="ms-5" title="Edit question"><i class="fa-regular fa-pen-to-square"></i></a>
+          </h5>
+          <!-- question content -->
+          <p class="fst-italic shadow p-3 mb-5 bg-body-tertiary rounded" >{{question.content}}</p>
+          <!-- question author -->
+          <p class="card-text">by: {{ question.author }} </p>
+          <a href="#collapseAnswer-{{ question.id }}" class="btn btn-danger mb-1" data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapseAnswer">Add Answer</a> 
+          <div class="collapse" id="collapseAnswer-{{ question.id }}"> 
+            <form  method="post" id="{{ question.id }}">
+                {% csrf_token %} 
+                {% bootstrap_form answer_form %}
+                <input type="hidden" name="question" value="{{question}}">
+                <button type="submit" class="btn btn-primary my-3">Add Answer</button>
+
+              </form>
+        </div>
+          <p class="d-inline-flex gap-1">
+            <a class="btn btn-secondary" data-bs-toggle="collapse" href="#collapseExample-{{ question.id }}" role="button" aria-expanded="false" aria-controls="collapseExample">All Answers </a>
+            
+          </p>
          <!-- end questions -->
          
          <!-- answers -->
@@ -78,8 +90,12 @@
              {% if answer.question == question %}
                <div class="collapse" id="collapseExample-{{ question.id }}">
                  <div class="card card-body mb-3" id="answer-{{ question.id }}">
+                   <p class="fw-bolder">
+                    {{ answer }}
+                    <a href="{{answer.id}}/edit_answer" class="ms-5" title="Edit Answer"><i class="fa-regular fa-pen-to-square"></i></a>
+
+                  </p>
                    <p class="fw-normal">by: {{ answer.author }}</p>
-                   <p class="fw-bolder">{{ answer }}</p>
                    <a class="btn btn-warning ms-auto" href="{{answer.id}}/delete_answer">Delete</a>
                  </div>
                </div>

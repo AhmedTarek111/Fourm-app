@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from django.views.generic import DeleteView
+from django.views.generic import DeleteView,UpdateView
 from .models import Question, Answer
 from .forms import *
 
@@ -12,6 +12,10 @@ def all_questions(request):
       delete the answer 
 
     '''
+    answers = Answer.objects.all()
+    questions = Question.objects.all()
+    content = Question.objects.values_list('content')
+    
     if request.method == 'POST':
         answer_form = Answerform(request.POST)
         question = request.POST.get('question')  
@@ -24,11 +28,13 @@ def all_questions(request):
     else:
         answer_form = Answerform()
 
-    answers = Answer.objects.all()
-    questions = Question.objects.all()
-
+    context={'questions': questions,
+               'answers': answers,
+               'answer_form': answer_form,
+               'content':content,
+               }
     
-    return render(request, 'all_questions.html', {'questions': questions, 'answers': answers, 'answer_form': answer_form})
+    return render(request, 'all_questions.html', context)
 
 def create_question(request):
     if request.method == 'POST':
@@ -44,7 +50,6 @@ def create_question(request):
     return render(request, 'add_question.html', {"form": form})
 
 
-
 class DeleteQuestion(DeleteView):
     model = Question
     template_name = 'delete_question.html'
@@ -53,4 +58,16 @@ class DeleteQuestion(DeleteView):
 class DeleteAnswer(DeleteView):
     model = Answer
     template_name = 'delete_answer.html'
+    success_url = '/main/'
+
+class Editquestion(UpdateView):
+    model =Question
+    fields =['question','content','tags']
+    template_name = 'edit_question.html'
+    success_url = '/main/'
+
+class Editanswer(UpdateView):
+    model =Answer
+    fields =['answer',]
+    template_name = 'edit_question.html'
     success_url = '/main/'

@@ -6,8 +6,8 @@ from taggit.managers import TaggableManager
 class Question(models.Model):
     question = models.CharField(max_length=350)
     author=models.ForeignKey(User,on_delete=models.SET_NULL,blank=True,null=True ,related_name='author_question')
+    content=models.TextField(max_length=300)
     tags =TaggableManager()
-    content=models.CharField(max_length=30)
     created_at=models.DateTimeField(default=timezone.now)
     def __str__(self):
          return self.question
@@ -19,3 +19,4 @@ class Answer(models.Model):
         created_at=models.DateTimeField(default=timezone.now)
         def __str__(self):
             return self.answer
+        

@@ -10,7 +10,7 @@
     <title>Quora</title>
 </head>
 <body style="background-color:#F1F2F2;">
-    <nav class="navbar navbar-expand-lg mb-2 " style="background-color:#FFFFFF;">
+    <nav class="navbar navbar-expand-lg mb-2 fixed-top" style="background-color:#FFFFFF;">
         <div class="container ">
             <a href="/main">
               <img class="mx-5" src="{% static 'img/1.jpeg' %}" alt="Bootstrap" width="87" height="26">
@@ -42,7 +42,7 @@
                 <form method="post" enctype="multipart/form-data" >
                     {% csrf_token %}
                     {% bootstrap_form form %}
-                    {% bootstrap_button button_type="submit" content="Add Question" %}
+                    {% bootstrap_button button_type="submit" content="Save Changes" %}
                 </form>
             </div>
             <div class="col-2"></div>
