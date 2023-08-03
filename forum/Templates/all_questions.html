@@ -1,0 +1,109 @@
+{% load static %}
+{% load django_bootstrap5 %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'bootstrap-5.3.1-dist/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Quora</title>
+</head>
+<body style="background-color:#F1F2F2;">
+  <!-- start nav -->
+    <nav class="navbar navbar-expand-lg mb-2 " style="background-color:#FFFFFF;">
+        <div class="container ">
+            <a href="/main">
+              <img class="mx-5" src="{% static 'img/1.jpeg' %}" alt="Bootstrap" width="87" height="26">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a href="/main"><img src="{% static 'img/th.jpeg' %}" style="width: 36px; height: 36px;" alt=""></a>
+            </li>
+
+            <li class="nav-item ms-5">
+                <a href="add_question/" type="button" class="btn btn-outline-danger ">Add Question</a>
+            </li>
+            
+            </ul>
+            <form class="d-flex me-auto" role="search">
+              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn  btn-outline-danger" type="submit">Search</button>
+            </form>
+          </div>
+        </div>
+      </nav>
+      <!-- end nav -->
+
+      <div class="container">
+        <div class="row ">
+
+          <div class="col-2">
+
+          </div>
+         
+          
+  <!-- questions -->
+   <div class="col-8 pt-4" style="background-color:#FFFFFF;">
+     {% for question in questions %}
+       <div class="card mb-3">
+         <div class="card-header">
+           Question
+         </div>
+       <div class="card-body" id="answerSection">
+         <h5 class="card-title">{{ question }}</h5>
+         <p class="card-text">by: {{ question.author }}</p>
+         <a href="#collapseAnswer-{{ question.id }}" class="btn btn-danger mb-1" data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapseAnswer">Add Answer</a> 
+         <div class="collapse" id="collapseAnswer-{{ question.id }}"> 
+          <form  method="post" id="{{ question.id }}">
+              {% csrf_token %} 
+              {% bootstrap_form answer_form %}
+              <input type="hidden" name="question" value="{{question}}">
+              <button type="submit" class="btn btn-primary my-3">Add Answer</button>
+            </form>
+      </div>
+         <p class="d-inline-flex gap-1">
+           <a class="btn btn-secondary" data-bs-toggle="collapse" href="#collapseExample-{{ question.id }}" role="button" aria-expanded="false" aria-controls="collapseExample">All Answers</a>
+           <a class="btn btn-warning ms-auto" href="{{ question.id }}/delete/" role="button">Delete Question</a>
+         </p>
+         <!-- end questions -->
+         
+         <!-- answers -->
+           {% for answer in answers %}
+             {% if answer.question == question %}
+               <div class="collapse" id="collapseExample-{{ question.id }}">
+                 <div class="card card-body mb-3" id="answer-{{ question.id }}">
+                   <p class="fw-normal">by: {{ answer.author }}</p>
+                   <p class="fw-bolder">{{ answer }}</p>
+                   <a class="btn btn-warning ms-auto" href="{{answer.id}}/delete_answer">Delete</a>
+                 </div>
+               </div>
+             {% endif %}
+           {% endfor %}
+         </div>
+       </div>
+     {% endfor %}
+   </div> 
+       <!--end answers  -->
+         </div>
+        
+          
+          <div class="col-2">
+
+          </div>
+        </div>
+    </div>
+      </div>
+      
+      <script src="{% static 'bootstrap-5.3.1-dist/js/bootstrap.min.js' %}"></script>
+
+</body>
+</html>
+
+
+

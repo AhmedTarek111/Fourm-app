@@ -13,9 +13,9 @@ class Question(models.Model):
          return self.question
 
 class Answer(models.Model):
-        answer=models.TextField(max_length=2000)
         question = models.ForeignKey(Question,on_delete=models.SET_NULL,null=True,blank=True,related_name='question_answer')
+        answer=models.TextField(max_length=2000)
         author=models.ForeignKey(User,on_delete=models.SET_NULL,blank=True,null=True,related_name='author_answer')
         created_at=models.DateTimeField(default=timezone.now)
         def __str__(self):
-            return self.question
+            return self.answer

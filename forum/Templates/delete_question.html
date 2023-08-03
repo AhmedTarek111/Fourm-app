@@ -1,0 +1,53 @@
+{% load django_bootstrap5 %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'bootstrap-5.3.1-dist/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Quora</title>
+</head>
+<body style="background-color:#F1F2F2;">
+    <nav class="navbar navbar-expand-lg mb-2 " style="background-color:#FFFFFF;">
+        <div class="container ">
+            <a href="#">
+              <img class="mx-5" src="{% static 'img/1.jpeg' %}" alt="Bootstrap" width="87" height="26">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a href="#"><img src="{% static 'img/th.jpeg' %}" style="width: 36px; height: 36px;" alt=""></a>
+            </li>
+
+            
+            </ul>
+            <form class="d-flex me-auto" role="search">
+              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn  btn-outline-danger" type="submit">Search</button>
+            </form>
+          </div>
+        </div>
+      </nav>
+   
+      <div class="container" >
+        <div class="row mt-4">
+            <div class="col-2"></div>
+            <div class="col-8 ">
+              <form method="post" >
+                {% csrf_token %}
+                <p>Are you sure you want to delete "{{ object }}"?</p>
+                {{ form }}
+                <input type="submit" value="Confirm" class="btn btn-warning">
+                <a href="/main" class="btn btn-primary">No </a>
+            </form>
+            </div>
+            <div class="col-2"></div>
+    </div>
+        </div>
+    
+</body>

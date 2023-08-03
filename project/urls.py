@@ -16,7 +16,18 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from forum.views import *
+from django.conf.urls.static import static
+from django.conf import settings
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path("main/",all_questions),
+    path("main/add_question/",create_question),
+    path("main/<int:pk>/delete/",DeleteQuestion.as_view()),
+    path('main/<int:pk>/delete_answer',DeleteAnswer.as_view())
 ]
+
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
