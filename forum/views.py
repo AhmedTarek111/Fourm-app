@@ -14,16 +14,15 @@ def all_questions(request):
     '''
     answers = Answer.objects.all()
     questions = Question.objects.all()
-    content = Question.objects.values_list('content')
     
     if request.method == 'POST':
         answer_form = Answerform(request.POST)
-        question = request.POST.get('question')  
+        question = request.POST.get('question')  #to get the question that belong to the Question model from the template 
         if answer_form.is_valid():
             my_answer_form = answer_form.save(commit=False)
             my_answer_form.author = request.user
-            questionn = Question.objects.get(question=question)  
-            my_answer_form.question = questionn  
+            questionn = Question.objects.get(question=question) # to get the question from the Question model that is the same in the model
+            my_answer_form.question = questionn  # to fill the question field that belong to the Answer model and to make the Answer is to the right question 
             my_answer_form.save()
     else:
         answer_form = Answerform()
@@ -31,7 +30,6 @@ def all_questions(request):
     context={'questions': questions,
                'answers': answers,
                'answer_form': answer_form,
-               'content':content,
                }
     
     return render(request, 'all_questions.html', context)
@@ -48,7 +46,6 @@ def create_question(request):
     else:
         form = Questionform()
     return render(request, 'add_question.html', {"form": form})
-
 
 class DeleteQuestion(DeleteView):
     model = Question

@@ -71,6 +71,7 @@
           <p class="card-text">by: {{ question.author }} </p>
           <a href="#collapseAnswer-{{ question.id }}" class="btn btn-danger mb-1" data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapseAnswer">Add Answer</a> 
           <div class="collapse" id="collapseAnswer-{{ question.id }}"> 
+          <!-- Answer form  -->
             <form  method="post" id="{{ question.id }}">
                 {% csrf_token %} 
                 {% bootstrap_form answer_form %}
