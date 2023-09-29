@@ -68,3 +68,6 @@ class Editanswer(UpdateView):
     fields =['answer',]
     template_name = 'edit_question.html'
     success_url = '/main/'
+
+
+    
